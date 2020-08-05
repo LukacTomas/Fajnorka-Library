@@ -7,18 +7,18 @@
 
 Zoznam funkcii
 
-- get_string
-- get_long_long
-- get_ulong_long
-- get_long
-- get_ulong
-- get_int
-- get_uint
-- get_short
-- get_ushort
-- get_char
-- get_float
-- get_double
+- [get_string](#get_string)
+- [get_long_long](#get_long_long)
+- [get_ulong_long](#get_ulong_long)
+- [get_long](#get_long)
+- [get_ulong](#get_ulong)
+- [get_int](#get_int)
+- [get_uint](#get_uint)
+- [get_short](#get_short)
+- [get_ushort](#get_ushort)
+- [get_char](#get_char)
+- [get_float](#get_float)
+- [get_double](#get_double)
 
 ### get_string
 
