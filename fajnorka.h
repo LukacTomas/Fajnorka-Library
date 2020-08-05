@@ -68,8 +68,8 @@
 
 #define check_mem(A) check((A), "Nemam pamat na vykonanie operacie.")
 /* DEBUG MACROS END */
-
 // Nas string
+#undef string
 #define string char *
 
 /**
@@ -105,6 +105,7 @@ typedef struct
 
 } string_holder;
 
+#undef strings
 string_holder *strings = NULL;
 
 /**

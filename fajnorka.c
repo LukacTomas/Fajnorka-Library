@@ -50,8 +50,14 @@
 #undef string_holder_init
 void string_holder_init()
 {
+    // malloc musi ponat aj string_holder aj strings->array,
+    // ktory je pociatocne nastaveny na SIZE
     strings = malloc(sizeof(string_holder) + SIZE * sizeof(strings->array));
+
+    // pre pocitanie ulozenych stringov ulozenych v strings->array
     strings->count = 0;
+
+    // pocet alokovanych chlievikov v strings->array
     strings->allocation = SIZE;
     strings->array = malloc(strings->allocation * sizeof(strings->array));
 }
@@ -64,9 +70,12 @@ void string_holder_init()
 #undef string_holder_resize
 void string_holder_resize()
 {
+    // zdvojnasob pocet chlievikov v strings->array
     strings->allocation = 2 * strings->allocation;
+    // realokuj celu strings
     strings = realloc(strings, sizeof(string_holder) + strings->allocation * sizeof(strings->array));
     check_mem(strings);
+    // realokuj strings->array
     strings->array = realloc(strings->array, strings->allocation * sizeof(strings->array));
     check_mem(strings->array)
 }
@@ -79,6 +88,7 @@ void string_holder_resize()
 #undef string_holder_destroy
 void string_holder_destroy()
 {
+    // uvolni vestky ukazovatele v strings->array
     for (unsigned int i = 0; i < strings->count; ++i)
     {
         free(strings->array[i]);
@@ -97,7 +107,6 @@ void string_holder_destroy()
 void string_holder_free_last()
 {
     free(strings->array[--strings->count]);
-    // strings->count--;
 }
 
 /**
@@ -121,10 +130,6 @@ void __attribute__((constructor)) construct(void) // @ignore
 #undef destructor
 void __attribute__((destructor)) destructor(void) // @ignore
 {
-
-    /* VYMAZ V PRODUKCII */
-    puts("\n\n\nTest version of library.");
-    /*Vymaz potialto*/
     string_holder_destroy();
 }
 
@@ -138,6 +143,8 @@ void __attribute__((destructor)) destructor(void) // @ignore
 void conversion_error(const char *msg)
 {
     printf("%s Skus este raz: ", msg);
+    // Uvolni posledny ukazovatel,
+    // nech sa zasobnik neplni nepotrebnymi vecami
     string_holder_free_last();
 }
 
@@ -154,15 +161,17 @@ string get_string(void)
     string buffer = calloc(allocation, sizeof(string));
     check_mem(buffer);
 
-    unsigned int counter = 0;
+    // pocitadlo znakov
+    unsigned int charCounter = 0;
     // c musi byt int lebo getchar vracia -1 pri EOF
     int c;
     while (((c = getchar()) != EOF && c != '\n' && c != '\r'))
     {
 
-        *(buffer + counter++) = c;
+        *(buffer + charCounter++) = c;
 
-        if (counter == allocation)
+        // Ak je trena realokovat
+        if (charCounter == allocation)
         {
             allocation = 2 * allocation;
             buffer = realloc(buffer, allocation);
@@ -170,15 +179,20 @@ string get_string(void)
         }
     }
     // aj posledny char - '\0'
-    buffer[counter] = '\0';
+    buffer[charCounter] = '\0';
 
     // sprav miesto v pamati pre presnu velkost textu
-    string text = calloc(counter, sizeof(string));
+    string text = calloc(charCounter, sizeof(string));
     check_mem(text);
 
     // skopiruj buffer do text
-    // malo by stacit strcpy, ale mozme uvazovat nad memcpy
-    memcpy(text, buffer, counter);
+    // malo by stacit strcpy, memcpy moze byt rychlejsie
+    // TODO Vysetri rychlost strcpy, memcpy
+    //      pre male ale aj velke data
+    //      napis vlastne copy, pretoze vyssie spomenute
+    //      moze byt optimalizovane pre velke data
+    //      a moze byt pre male data pomale
+    memcpy(text, buffer, charCounter);
     // strcpy(text, buffer);
 
     // uvolni buffer
@@ -211,8 +225,10 @@ long long get_long_long(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+        // http://www.cplusplus.com/reference/cstdlib/strtoll/
         number = strtoll(text, &end, 10);
 
         if (text == end)
@@ -244,8 +260,11 @@ unsigned long long get_ulong_long(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+
+        // http://www.cplusplus.com/reference/cstdlib/strtoull/
         number = strtoull(text, &end, 10);
         if (text[0] == '-')
         {
@@ -280,8 +299,11 @@ long get_long(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+
+        // http://www.cplusplus.com/reference/cstdlib/strtol/
         number = strtol(text, &end, 10);
 
         if (text == end)
@@ -313,9 +335,13 @@ unsigned long get_ulong(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+
+        // http://www.cplusplus.com/reference/cstdlib/strtoul/
         number = strtoul(text, &end, 10);
+
         if (text[0] == '-')
         {
             errno = ERANGE;
@@ -349,8 +375,11 @@ int get_int(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+
+        // http://www.cplusplus.com/reference/cstdlib/strtul/
         number = strtol(text, &end, 10);
 
         if (text == end)
@@ -382,8 +411,11 @@ unsigned int get_uint(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+
+        // http: www.cplusplus.com/reference/cstdlib/strtoul/
         number = strtoul(text, &end, 10);
 
         if (text[0] == '-' || number > UINT_MAX)
@@ -419,8 +451,10 @@ short get_short(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+        // http://www.cplusplus.com/reference/cstdlib/strtol/
         number = strtol(text, &end, 10);
 
         if (text == end)
@@ -452,8 +486,11 @@ unsigned short get_ushort(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+
+        // http://www.cplusplus.com/reference/cstdlib/strtol/
         number = strtol(text, &end, 10);
 
         if (text[0] == '-' || number > USHRT_MAX)
@@ -504,8 +541,11 @@ float get_float(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+
+        // http://www.cplusplus.com/reference/cstdlib/strtof/
         number = strtof(text, &end);
 
         if (text == end)
@@ -537,8 +577,11 @@ double get_double(void)
 
     do
     {
+        // errno is during conversion with strtoX functions
         errno = 0;
         text = get_string();
+
+        // http://www.cplusplus.com/reference/cstdlib/strtod/
         number = strtod(text, &end);
 
         if (text == end)
