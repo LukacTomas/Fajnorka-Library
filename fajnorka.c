@@ -53,13 +53,14 @@ void string_holder_init()
     // malloc musi ponat aj string_holder aj strings->array,
     // ktory je pociatocne nastaveny na SIZE
     strings = malloc(sizeof(string_holder) + SIZE * sizeof(strings->array));
-
+    check_mem(strings);
     // pre pocitanie ulozenych stringov ulozenych v strings->array
     strings->count = 0;
 
     // pocet alokovanych chlievikov v strings->array
     strings->allocation = SIZE;
     strings->array = malloc(strings->allocation * sizeof(strings->array));
+    check_mem(strings->array);
 }
 
 /**
@@ -191,7 +192,8 @@ string get_string(void)
     // UPDATE on speed
     // Vyzera to tak, ze memcpy je rychlejsie
     // pre male velkosti (do 30 znakov) char* poli,
-    // zakial strcpy je rychlejsie pre dhsie      
+    // zakial strcpy je rychlejsie pre dhsie     
+    // *** still seems odd - 25.8.2020 
     memcpy(text, buffer, charCounter);
     // strcpy(text, buffer);
 
