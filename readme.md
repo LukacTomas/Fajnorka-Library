@@ -33,7 +33,7 @@ string get_string(void)
 ```c
 printf("Zadaj svoje meno: ");
 string meno = get_string();
-print("Tvoje meno je  %s", meno);
+printf("Tvoje meno je  %s", meno);
 ```
 
 ### get_long_long
@@ -49,7 +49,7 @@ long long get_long_long(void)
 ```c
 printf("Zadaj long long: ");
 long long llNumber = get_long_long();
-print("Zadal si %lli", llNumber);
+printf("Zadal si %lli", llNumber);
 ```
 
 ### get_ulong_long
@@ -65,7 +65,7 @@ unsigned long long get_ulong_long(void)
 ```c
 printf("Zadaj unsigned long long: ");
 unsigned long long ullNumber = get_ulong_long();
-print("Zadal si %llu", ullNumber);
+printf("Zadal si %llu", ullNumber);
 ```
 
 ### get_long
@@ -81,7 +81,7 @@ long get_long(void)
 ```c
 printf("Zadaj long: ");
 long  lNumber = get_long();
-print("Zadal si %li", lNumber);
+printf("Zadal si %li", lNumber);
 ```
 
 ### get_ulong_long
@@ -97,7 +97,7 @@ unsigned long get_ulong(void)
 ```c
 printf("Zadaj unsigned long: ");
 unsigned long ulNumber = get_ulong();
-print("Zadal si %lu", ulNumber);
+printf("Zadal si %lu", ulNumber);
 ```
 
 ### get_int
@@ -113,7 +113,7 @@ int get_int(void)
 ```c
 printf("Zadaj integer: ");
 int intNumber = get_int();
-print("Zadal si %i, intNumber);
+printf("Zadal si %i, intNumber);
 ```
 
 ### get_int
@@ -129,7 +129,7 @@ int get_uint(void)
 ```c
 printf("Zadaj unsigned integer: ");
 int uintNumber = get_uint();
-print("Zadal si %u, uintNumber);
+printf("Zadal si %u, uintNumber);
 ```
 
 ### get_short
@@ -145,7 +145,7 @@ short get_short(void)
 ```c
 printf("Zadaj short: ");
 short shortNumber = get_short();
-print("Zadal si %i, shortNumber);
+printf("Zadal si %i, shortNumber);
 ```
 
 ### get_ushort
@@ -161,7 +161,7 @@ unsigned short get_ushort(void)
 ```c
 printf("Zadaj unsgined short: ");
 unsigned short uShortNumber = get_ushort();
-print("Zadal si %u, uShortNumber);
+printf("Zadal si %u, uShortNumber);
 ```
 
 ### get_char
@@ -177,7 +177,7 @@ char get_char(void)
 ```c
 printf("Zadaj jedno pismeno: ");
 char c = get_char();
-print("Zadal si %c, c);
+printf("Zadal si %c, c);
 ```
 
 ### get_float
@@ -193,7 +193,7 @@ float get_float(void)
 ```c
 printf("Zadaj float: ");
 float floatNumber = get_float();
-print("Zadal si %f, floatNumber);
+printf("Zadal si %f, floatNumber);
 ```
 
 ### get_double
@@ -209,5 +209,5 @@ double get_double(void)
 ```c
 printf("Zadaj double: ");
 double doubleNumber = get_double();
-print("Zadal si %f, doubleNumber);
+printf("Zadal si %f, doubleNumber);
 ```
